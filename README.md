@@ -1,5 +1,5 @@
 # PHP Base Project
-A Composer ready package to start a new PHP 7 project including Composer, PHPUnit, Travis, CodeClimate and StyleCI. More info [here](keepcoding.ehsanabbasi.com/php/composer-ready-starter-kit/).
+Application-level defender against blocked entities such as IP, email, ...
 
 ## Server Requirements
 - PHP >= 7.0.0
