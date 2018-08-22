@@ -8,16 +8,27 @@ class Guard
 {
     private $drivers;
 
-    // block
-    public function block()
+    public function block($entity, $value)
     {
         // load all the pushed drivers and call block
+        foreach ($this->getDrivers() as $driver) {
+            $driver->block($entity, $value);
+        }
+
+        return true;
     }
 
     // check isBlocked
-    public function isBlocked()
+    public function isBlocked($entity, $value)
     {
         // load all the pushed drivers and call isBlocked
+        foreach ($this->getDrivers() as $driver) {
+            if ($driver->isBlocked($entity, $value) === true) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
