@@ -19,8 +19,6 @@ class Guard
         foreach ($this->getDrivers() as $driver) {
             $driver->block($entity, $value);
         }
-
-        return true;
     }
 
     // check isBlocked

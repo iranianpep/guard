@@ -44,6 +44,15 @@ class GreetingTest extends TestCase
     public function testIsBlockedNoDriver()
     {
         $guard = new Guard();
-        $this->assertFalse($guard->isBlocked('dummy', 'dummy '));
+        $this->assertFalse($guard->isBlocked('dummy', 'dummy'));
+    }
+
+    public function testIsBlockedDummyDriver()
+    {
+        $guard = new Guard([new DummyDriver()]);
+        $this->assertTrue($guard->isBlocked('exists', 'exists'));
+        $this->assertFalse($guard->isBlocked('exists', 'dummy'));
+        $this->assertFalse($guard->isBlocked('doesNotExist', 'doesNotExist'));
+        $this->assertFalse($guard->isBlocked('exists', 'doesNotExist'));
     }
 }
