@@ -8,6 +8,11 @@ class Guard
 {
     private $drivers;
 
+    public function __construct(array $drivers = [])
+    {
+        $this->setDrivers($drivers);
+    }
+
     public function block($entity, $value)
     {
         // load all the pushed drivers and call block

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class GreetingTest extends TestCase
 {
-    public function testPushDatabaseDriver()
+    public function testPushDriver()
     {
         $guard = new Guard();
 
@@ -23,5 +23,27 @@ class GreetingTest extends TestCase
         $this->assertEquals([$driver1, $driver2], $drivers);
         $this->assertEquals(1, $drivers[0]->test);
         $this->assertEquals(2, $drivers[1]->test);
+    }
+
+    public function testSetDrivers()
+    {
+        $guard = new Guard();
+
+        $driver1 = new MongoDBDriver();
+        $driver1->test = 1;
+
+        $driver2 = new MongoDBDriver();
+        $driver2->test = 2;
+
+        $drivers = [$driver1, $driver2];
+        $guard->setDrivers($drivers);
+
+        $this->assertEquals($drivers, $guard->getDrivers());
+    }
+
+    public function testIsBlockedNoDriver()
+    {
+        $guard = new Guard();
+        $this->assertFalse($guard->isBlocked('dummy', 'dummy '));
     }
 }
