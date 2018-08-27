@@ -4,7 +4,7 @@ namespace Guard\Driver;
 
 abstract class AbstractDriver implements DriverInterface
 {
-    function block($entity, $value): bool
+    public function block($entity, $value): bool
     {
         if ($this->exists($entity, $value) === false) {
             return $this->write($entity, $value);
@@ -13,7 +13,7 @@ abstract class AbstractDriver implements DriverInterface
         return false;
     }
 
-    function isBlocked($entity, $value): bool
+    public function isBlocked($entity, $value): bool
     {
         if ($this->exists($entity, $value) === true) {
             return true;

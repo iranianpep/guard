@@ -4,6 +4,7 @@ namespace Guard\Driver;
 
 use MongoDB\Client;
 use MongoDB\Collection;
+use MongoDB\Driver\Cursor;
 
 class MongoDBDriver extends AbstractDriver
 {
@@ -11,17 +12,33 @@ class MongoDBDriver extends AbstractDriver
 
     public function __construct(Client $client, $database, $collection)
     {
-        $this->collection = $client->selectCollection($database, $collection);
+        $this->setCollection($client->selectCollection($database, $collection));
 
         if (!$this->collection instanceof Collection) {
             throw new \Exception('Unable to select the collection');
         }
     }
 
+    /**
+     * @return Collection
+     */
+    public function getCollection(): Collection
+    {
+        return $this->collection;
+    }
+
+    /**
+     * @param Collection $collection
+     */
+    public function setCollection(Collection $collection): void
+    {
+        $this->collection = $collection;
+    }
+
     protected function write($entity, $value)
     {
         try {
-            $this->collection->insertOne([
+            $this->getCollection()->insertOne([
                 'entity' => $entity,
                 'value' => $value
             ]);
@@ -34,10 +51,10 @@ class MongoDBDriver extends AbstractDriver
 
     protected function exists($entity, $value): bool
     {
-        $result = $this->collection->find([
+        $result = $this->getCollection()->findOne([
             'entity' => $entity,
             'value' => $value
-        ])->toArray();
+        ]);
 
         if (!empty($result)) {
             return true;
