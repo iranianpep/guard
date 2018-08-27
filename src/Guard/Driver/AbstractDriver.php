@@ -22,6 +22,6 @@ abstract class AbstractDriver implements DriverInterface
         return false;
     }
 
-    abstract protected function write($entity, $value): bool;
+    abstract protected function write($entity, $value);
     abstract protected function exists($entity, $value): bool;
 }

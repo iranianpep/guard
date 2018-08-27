@@ -3,6 +3,7 @@
 namespace Guard;
 
 use Guard\Driver\MongoDBDriver;
+use MongoDB\Client;
 use PHPUnit\Framework\TestCase;
 
 class GreetingTest extends TestCase
@@ -11,10 +12,10 @@ class GreetingTest extends TestCase
     {
         $guard = new Guard();
 
-        $driver1 = new MongoDBDriver();
+        $driver1 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $driver1->test = 1;
 
-        $driver2 = new MongoDBDriver();
+        $driver2 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $driver2->test = 2;
 
         $guard->pushDriver($driver1)->pushDriver($driver2);
@@ -29,10 +30,10 @@ class GreetingTest extends TestCase
     {
         $guard = new Guard();
 
-        $driver1 = new MongoDBDriver();
+        $driver1 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $driver1->test = 1;
 
-        $driver2 = new MongoDBDriver();
+        $driver2 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $driver2->test = 2;
 
         $drivers = [$driver1, $driver2];
