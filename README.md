@@ -1,11 +1,11 @@
-# PHP Base Project
+# Guard
 Application-level defender against blocked entities such as IP, email, ...
 
-## Server Requirements
+## Requirements
 - PHP >= 7.0.0
 
 ## Usage
--  First install this template:
+-  Install via composer:
 ```
 composer require guard/guard
 ```

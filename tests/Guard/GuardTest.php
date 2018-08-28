@@ -3,6 +3,7 @@
 namespace Guard;
 
 use Guard\Driver\MongoDBDriver;
+use Guard\Driver\MongoDBDriverTest;
 use MongoDB\Client;
 use PHPUnit\Framework\TestCase;
 
@@ -46,6 +47,54 @@ class GreetingTest extends TestCase
     {
         $guard = new Guard();
         $this->assertFalse($guard->isBlocked('dummy', 'dummy'));
+    }
+
+    public function testBlock()
+    {
+        $guard = new Guard();
+
+        // mock insertOne function
+        $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
+        $mock->expects($this->once())
+            ->method('insertOne')
+            ->with(MongoDBDriverTest::SAMPLE_DATA[1]['args'])
+            ->willReturn(true);
+
+        $mock->expects($this->once())
+            ->method('findOne')
+            ->with(MongoDBDriverTest::SAMPLE_DATA[1]['args'])
+            ->willReturn(MongoDBDriverTest::SAMPLE_DATA[1]['exists']);
+
+        $driver1 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
+        $driver1->setCollection($mock);
+        $guard->pushDriver($driver1);
+
+        $guard->block(
+            MongoDBDriverTest::SAMPLE_DATA[1]['args']['entity'],
+            MongoDBDriverTest::SAMPLE_DATA[1]['args']['value']
+        );
+    }
+
+    public function testBlockReturnFalse()
+    {
+        $guard = new Guard();
+
+        // mock insertOne function
+        $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
+
+        $mock->expects($this->once())
+            ->method('findOne')
+            ->with(MongoDBDriverTest::SAMPLE_DATA[0]['args'])
+            ->willReturn(MongoDBDriverTest::SAMPLE_DATA[0]['exists']);
+
+        $driver1 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
+        $driver1->setCollection($mock);
+        $guard->pushDriver($driver1);
+
+        $guard->block(
+            MongoDBDriverTest::SAMPLE_DATA[0]['args']['entity'],
+            MongoDBDriverTest::SAMPLE_DATA[0]['args']['value']
+        );
     }
 
     public function testIsBlockedDummyDriver()

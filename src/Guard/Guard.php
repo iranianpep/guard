@@ -8,11 +8,20 @@ class Guard
 {
     private $drivers;
 
+    /**
+     * Guard constructor.
+     *
+     * @param array $drivers
+     */
     public function __construct(array $drivers = [])
     {
         $this->setDrivers($drivers);
     }
 
+    /**
+     * @param $entity
+     * @param $value
+     */
     public function block($entity, $value)
     {
         // load all the pushed drivers and call block
@@ -21,7 +30,12 @@ class Guard
         }
     }
 
-    // check isBlocked
+    /**
+     * @param $entity
+     * @param $value
+     *
+     * @return bool
+     */
     public function isBlocked($entity, $value)
     {
         // load all the pushed drivers and call isBlocked
