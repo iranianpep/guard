@@ -10,6 +10,9 @@ matrix:
   - php: 7.1
   - php: 7.2
 
+services:
+  - mongodb
+
 sudo: false
 
 addons:
@@ -17,7 +20,6 @@ addons:
     repo_token: ca13c8a4bf4c4707d4403cdc2110998a510eedca0919e926e7bce6daafd59544
 
 install:
-    - pecl install mongodb
     - composer install
 
 before_script:
