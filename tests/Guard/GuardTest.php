@@ -97,12 +97,46 @@ class GreetingTest extends TestCase
         );
     }
 
-    public function testIsBlockedDummyDriver()
+    public function testIsBlocked()
     {
-        $guard = new Guard([new DummyDriver()]);
-        $this->assertTrue($guard->isBlocked('exists', 'exists'));
-        $this->assertFalse($guard->isBlocked('exists', 'dummy'));
-        $this->assertFalse($guard->isBlocked('doesNotExist', 'doesNotExist'));
-        $this->assertFalse($guard->isBlocked('exists', 'doesNotExist'));
+        $guard = new Guard();
+
+        // mock findOne function
+        $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
+
+        $args = [
+            'entity' => 'ip',
+            'value' => '1.2.3.4'
+        ];
+
+        $args1 = [
+            'entity' => 'ip',
+            'value' => '1.2.3.41'
+        ];
+
+        $mock->expects($this->exactly(2))
+            ->method('findOne')
+            ->with($this->logicalOr(
+                $this->equalTo($args),
+                $this->equalTo($args1)
+            ))
+            ->will($this->returnCallback([$this, 'fakeFindOne']));
+
+        $mongoDBDriver = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
+        $mongoDBDriver->setCollection($mock);
+
+        $guard->pushDriver($mongoDBDriver);
+
+        $guard->isBlocked('ip', '1.2.3.4');
+        $guard->isBlocked('ip', '1.2.3.41');
+    }
+
+    public function fakeFindOne($args)
+    {
+        foreach (MongoDBDriverTest::SAMPLE_DATA as $data) {
+            if ($args === $data['args']) {
+                return $data['exists'];
+            }
+        }
     }
 }
