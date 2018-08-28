@@ -13,10 +13,6 @@ class MongoDBDriver extends AbstractDriver
     public function __construct(Client $client, $database, $collection)
     {
         $this->setCollection($client->selectCollection($database, $collection));
-
-        if (!$this->collection instanceof Collection) {
-            throw new \Exception('Unable to select the collection');
-        }
     }
 
     /**
@@ -30,7 +26,7 @@ class MongoDBDriver extends AbstractDriver
     /**
      * @param Collection $collection
      */
-    public function setCollection(Collection $collection): void
+    public function setCollection(Collection $collection)
     {
         $this->collection = $collection;
     }
