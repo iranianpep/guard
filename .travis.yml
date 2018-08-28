@@ -17,6 +17,7 @@ addons:
     repo_token: cbb4ed82659da46058cffee3f587565a1615c9df7259b445b8b4229c520b1e7c
 
 install:
+    - pecl install mongodb
     - composer install
 
 before_script:
