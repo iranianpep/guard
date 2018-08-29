@@ -33,6 +33,18 @@ class Guard
     /**
      * @param $entity
      * @param $value
+     */
+    public function unBlock($entity, $value)
+    {
+        // load all the pushed drivers and call unblock
+        foreach ($this->getDrivers() as $driver) {
+            $driver->unBlock($entity, $value);
+        }
+    }
+
+    /**
+     * @param $entity
+     * @param $value
      *
      * @return bool
      */

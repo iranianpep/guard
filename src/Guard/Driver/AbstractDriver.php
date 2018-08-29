@@ -7,7 +7,7 @@ abstract class AbstractDriver implements DriverInterface
     public function block($entity, $value): bool
     {
         if ($this->exists($entity, $value) === false) {
-            return $this->write($entity, $value);
+            return $this->add($entity, $value);
         }
 
         return false;
@@ -22,6 +22,16 @@ abstract class AbstractDriver implements DriverInterface
         return false;
     }
 
-    abstract protected function write($entity, $value);
+    public function unBlock($entity, $value): bool
+    {
+        if ($this->exists($entity, $value) === true) {
+            return $this->remove($entity, $value);
+        }
+
+        return false;
+    }
+
+    abstract protected function add($entity, $value);
     abstract protected function exists($entity, $value): bool;
+    abstract protected function remove($entity, $value);
 }

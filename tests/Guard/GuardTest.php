@@ -127,8 +127,51 @@ class GreetingTest extends TestCase
 
         $guard->pushDriver($mongoDBDriver);
 
-        $guard->isBlocked('ip', '1.2.3.4');
-        $guard->isBlocked('ip', '1.2.3.41');
+        try {
+            $guard->isBlocked('ip', '1.2.3.4');
+            $guard->isBlocked('ip', '1.2.3.41');
+        } catch (\Exception $e) {
+            // Error should not be thrown if functions are working as expected
+            $this->assertFalse(true);
+        }
+    }
+
+    public function testUnBlock()
+    {
+        // mock findOne function
+        $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
+
+        $args = [
+            'entity' => 'ip',
+            'value' => '1.2.3.4'
+        ];
+
+        $args1 = [
+            'entity' => 'ip',
+            'value' => '1.2.3.41'
+        ];
+
+        $mock->expects($this->exactly(2))
+            ->method('findOne')
+            ->with($this->logicalOr(
+                $this->equalTo($args),
+                $this->equalTo($args1)
+            ))
+            ->will($this->returnCallback([$this, 'fakeFindOne']));
+
+        $mongoDBDriver = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
+        $mongoDBDriver->setCollection($mock);
+
+        $guard = new Guard();
+        $guard->pushDriver($mongoDBDriver);
+
+        try {
+            $guard->unBlock('ip', '1.2.3.41');
+            $guard->unBlock('ip', '1.2.3.4');
+        } catch (\Exception $e) {
+            // Error should not be thrown if functions are working as expected
+            $this->assertFalse(true);
+        }
     }
 
     public function fakeFindOne($args)

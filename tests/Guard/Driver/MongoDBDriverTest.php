@@ -63,7 +63,7 @@ class MongoDBDriverTest extends TestCase
         $this->assertFalse($mongoDBDriver->isBlocked('ip', '1.2.3.41'));
     }
 
-    public function testWrite()
+    public function testAdd()
     {
         // mock insertOne function
         $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
@@ -89,7 +89,7 @@ class MongoDBDriverTest extends TestCase
         );
     }
 
-    public function testWriteWithFalse()
+    public function testAddReturnFalse()
     {
         // mock insertOne function
         $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
@@ -111,6 +111,58 @@ class MongoDBDriverTest extends TestCase
             $mongoDBDriver->block(
                 self::SAMPLE_DATA[1]['args']['entity'],
                 self::SAMPLE_DATA[1]['args']['value']
+            )
+        );
+    }
+
+    public function testRemove()
+    {
+        // mock deleteOne function
+        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+
+        $mock->expects($this->once())
+            ->method('deleteOne')
+            ->with(self::SAMPLE_DATA[0]['args'])
+            ->willReturn(true);
+
+        $mock->expects($this->once())
+            ->method('findOne')
+            ->with(self::SAMPLE_DATA[0]['args'])
+            ->will($this->returnCallback([$this, 'fakeFindOne']));
+
+        $mongoDBDriver = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
+        $mongoDBDriver->setCollection($mock);
+
+        $this->assertTrue(
+            $mongoDBDriver->unBlock(
+                self::SAMPLE_DATA[0]['args']['entity'],
+                self::SAMPLE_DATA[0]['args']['value']
+            )
+        );
+    }
+
+    public function testRemoveReturnFalse()
+    {
+        // mock deleteOne function
+        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+
+        $mock->expects($this->once())
+            ->method('deleteOne')
+            ->with(self::SAMPLE_DATA[0]['args'])
+            ->willThrowException(new \Exception());
+
+        $mock->expects($this->once())
+            ->method('findOne')
+            ->with(self::SAMPLE_DATA[0]['args'])
+            ->will($this->returnCallback([$this, 'fakeFindOne']));
+
+        $mongoDBDriver = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
+        $mongoDBDriver->setCollection($mock);
+
+        $this->assertFalse(
+            $mongoDBDriver->unBlock(
+                self::SAMPLE_DATA[0]['args']['entity'],
+                self::SAMPLE_DATA[0]['args']['value']
             )
         );
     }

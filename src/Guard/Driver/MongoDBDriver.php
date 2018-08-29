@@ -4,12 +4,18 @@ namespace Guard\Driver;
 
 use MongoDB\Client;
 use MongoDB\Collection;
-use MongoDB\Driver\Cursor;
 
 class MongoDBDriver extends AbstractDriver
 {
     private $collection;
 
+    /**
+     * MongoDBDriver constructor.
+     *
+     * @param Client $client
+     * @param        $database
+     * @param        $collection
+     */
     public function __construct(Client $client, $database, $collection)
     {
         $this->setCollection($client->selectCollection($database, $collection));
@@ -31,7 +37,13 @@ class MongoDBDriver extends AbstractDriver
         $this->collection = $collection;
     }
 
-    protected function write($entity, $value)
+    /**
+     * @param $entity
+     * @param $value
+     *
+     * @return bool
+     */
+    protected function add($entity, $value)
     {
         try {
             $this->getCollection()->insertOne([
@@ -57,5 +69,25 @@ class MongoDBDriver extends AbstractDriver
         }
 
         return false;
+    }
+
+    /**
+     * @param $entity
+     * @param $value
+     *
+     * @return bool
+     */
+    protected function remove($entity, $value)
+    {
+        try {
+            $this->getCollection()->deleteOne([
+                'entity' => $entity,
+                'value' => $value
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
