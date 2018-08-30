@@ -7,7 +7,8 @@
     { "name": "Ehsan Abbasi", "email": "ehsan.abb@gmail.com" }
   ],
   "require": {
-    "php": ">=7"
+    "php": ">=7",
+    "mongodb/mongodb": "^1.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^6"
