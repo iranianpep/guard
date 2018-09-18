@@ -56,7 +56,6 @@ class MongoDBDriverTest extends TestCase
     public function testAdd()
     {
         $mock = $this->getMock();
-
         $mock->expects($this->once())
             ->method('insertOne')
             ->with(self::SAMPLE_DATA[1]['args'])
@@ -81,7 +80,6 @@ class MongoDBDriverTest extends TestCase
     public function testAddReturnFalse()
     {
         $mock = $this->getMock();
-
         $mock->expects($this->once())
             ->method('insertOne')
             ->with(self::SAMPLE_DATA[1]['args'])

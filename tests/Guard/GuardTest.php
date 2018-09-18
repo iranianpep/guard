@@ -97,15 +97,12 @@ class GreetingTest extends TestCase
 
     public function testIsBlocked()
     {
-        $args = ['entity' => 'ip', 'value' => '1.2.3.4'];
-        $args1 = ['entity' => 'ip', 'value' => '1.2.3.41'];
-
         $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
         $mock->expects($this->exactly(2))
             ->method('findOne')
             ->with($this->logicalOr(
-                $this->equalTo($args),
-                $this->equalTo($args1)
+                $this->equalTo(['entity' => 'ip', 'value' => '1.2.3.4']),
+                $this->equalTo(['entity' => 'ip', 'value' => '1.2.3.41'])
             ))
             ->will($this->returnCallback([$this, 'fakeFindOne']));
 
@@ -126,15 +123,12 @@ class GreetingTest extends TestCase
 
     public function testUnBlock()
     {
-        $args = ['entity' => 'ip', 'value' => '1.2.3.4'];
-        $args1 = ['entity' => 'ip', 'value' => '1.2.3.41'];
-
         $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
         $mock->expects($this->exactly(2))
             ->method('findOne')
             ->with($this->logicalOr(
-                $this->equalTo($args),
-                $this->equalTo($args1)
+                $this->equalTo(['entity' => 'ip', 'value' => '1.2.3.4']),
+                $this->equalTo(['entity' => 'ip', 'value' => '1.2.3.41'])
             ))
             ->will($this->returnCallback([$this, 'fakeFindOne']));
 
