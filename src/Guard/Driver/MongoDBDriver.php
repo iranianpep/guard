@@ -22,6 +22,8 @@ class MongoDBDriver extends AbstractDriver
     }
 
     /**
+     * Get MongoDB collection
+     *
      * @return Collection
      */
     public function getCollection(): Collection
@@ -30,6 +32,8 @@ class MongoDBDriver extends AbstractDriver
     }
 
     /**
+     * Set MongoDB collection
+     *
      * @param Collection $collection
      */
     public function setCollection(Collection $collection)
@@ -38,6 +42,8 @@ class MongoDBDriver extends AbstractDriver
     }
 
     /**
+     * Add an entity with its value to the collection
+     *
      * @param $entity
      * @param $value
      *
@@ -57,6 +63,14 @@ class MongoDBDriver extends AbstractDriver
         }
     }
 
+    /**
+     * Check whether an entity with its value exists in the collection
+     *
+     * @param $entity
+     * @param $value
+     *
+     * @return bool
+     */
     protected function exists($entity, $value): bool
     {
         $result = $this->getCollection()->findOne([
@@ -72,6 +86,8 @@ class MongoDBDriver extends AbstractDriver
     }
 
     /**
+     * Remove an entity with its value from the collection
+     *
      * @param $entity
      * @param $value
      *

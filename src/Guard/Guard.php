@@ -19,6 +19,8 @@ class Guard
     }
 
     /**
+     * Block a value for an entity
+     *
      * @param $entity
      * @param $value
      */
@@ -31,6 +33,8 @@ class Guard
     }
 
     /**
+     * Unblock a blocked value for an entity
+     *
      * @param $entity
      * @param $value
      */
@@ -43,6 +47,8 @@ class Guard
     }
 
     /**
+     * Check if a value for an entity is blocked
+     *
      * @param $entity
      * @param $value
      *
@@ -61,6 +67,8 @@ class Guard
     }
 
     /**
+     * Push a driver to drivers list
+     *
      * @param DriverInterface $driver
      * @return Guard
      */
@@ -72,6 +80,8 @@ class Guard
     }
 
     /**
+     * Get the drivers
+     *
      * @return DriverInterface[]
      */
     public function getDrivers(): array
@@ -80,6 +90,8 @@ class Guard
     }
 
     /**
+     * Set the drivers
+     *
      * @param DriverInterface[] $drivers
      * @return Guard
      */
