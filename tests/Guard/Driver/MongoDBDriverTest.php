@@ -35,7 +35,7 @@ class MongoDBDriverTest extends TestCase
     public function testExists()
     {
         // mock findOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+        $mock = $this->getMock();
 
         $args = [
             'entity' => 'ip',
@@ -65,8 +65,7 @@ class MongoDBDriverTest extends TestCase
 
     public function testAdd()
     {
-        // mock insertOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+        $mock = $this->getMock();
 
         $mock->expects($this->once())
             ->method('insertOne')
@@ -91,8 +90,7 @@ class MongoDBDriverTest extends TestCase
 
     public function testAddReturnFalse()
     {
-        // mock insertOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+        $mock = $this->getMock();
 
         $mock->expects($this->once())
             ->method('insertOne')
@@ -117,8 +115,7 @@ class MongoDBDriverTest extends TestCase
 
     public function testRemove()
     {
-        // mock deleteOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+        $mock = $this->getMock();
 
         $mock->expects($this->once())
             ->method('deleteOne')
@@ -143,8 +140,7 @@ class MongoDBDriverTest extends TestCase
 
     public function testRemoveReturnFalse()
     {
-        // mock deleteOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+        $mock = $this->getMock();
 
         $mock->expects($this->once())
             ->method('deleteOne')
@@ -174,5 +170,10 @@ class MongoDBDriverTest extends TestCase
                 return $data['exists'];
             }
         }
+    }
+
+    private function getMock()
+    {
+        return $this->createMock(self::MONGO_COLLECTION_CLASS);
     }
 }

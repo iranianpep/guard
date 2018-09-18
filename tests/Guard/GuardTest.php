@@ -99,20 +99,11 @@ class GreetingTest extends TestCase
 
     public function testIsBlocked()
     {
-        $guard = new Guard();
-
         // mock findOne function
         $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
 
-        $args = [
-            'entity' => 'ip',
-            'value' => '1.2.3.4'
-        ];
-
-        $args1 = [
-            'entity' => 'ip',
-            'value' => '1.2.3.41'
-        ];
+        $args = ['entity' => 'ip', 'value' => '1.2.3.4'];
+        $args1 = ['entity' => 'ip', 'value' => '1.2.3.41'];
 
         $mock->expects($this->exactly(2))
             ->method('findOne')
@@ -125,6 +116,7 @@ class GreetingTest extends TestCase
         $mongoDBDriver = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $mongoDBDriver->setCollection($mock);
 
+        $guard = new Guard();
         $guard->pushDriver($mongoDBDriver);
 
         try {
@@ -141,15 +133,8 @@ class GreetingTest extends TestCase
         // mock findOne function
         $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
 
-        $args = [
-            'entity' => 'ip',
-            'value' => '1.2.3.4'
-        ];
-
-        $args1 = [
-            'entity' => 'ip',
-            'value' => '1.2.3.41'
-        ];
+        $args = ['entity' => 'ip', 'value' => '1.2.3.4'];
+        $args1 = ['entity' => 'ip', 'value' => '1.2.3.41'];
 
         $mock->expects($this->exactly(2))
             ->method('findOne')
