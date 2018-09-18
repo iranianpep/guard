@@ -34,19 +34,10 @@ class MongoDBDriverTest extends TestCase
 
     public function testExists()
     {
-        // mock findOne function
+        $args = ['entity' => 'ip', 'value' => '1.2.3.4'];
+        $args1 = ['entity' => 'ip', 'value' => '1.2.3.41'];
+
         $mock = $this->getMock();
-
-        $args = [
-            'entity' => 'ip',
-            'value' => '1.2.3.4'
-        ];
-
-        $args1 = [
-            'entity' => 'ip',
-            'value' => '1.2.3.41'
-        ];
-
         $mock->expects($this->exactly(2))
             ->method('findOne')
             ->with($this->logicalOr(
@@ -57,7 +48,6 @@ class MongoDBDriverTest extends TestCase
 
         $mongoDBDriver = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $mongoDBDriver->setCollection($mock);
-
 
         $this->assertTrue($mongoDBDriver->isBlocked('ip', '1.2.3.4'));
         $this->assertFalse($mongoDBDriver->isBlocked('ip', '1.2.3.41'));
