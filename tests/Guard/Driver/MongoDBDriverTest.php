@@ -34,19 +34,10 @@ class MongoDBDriverTest extends TestCase
 
     public function testExists()
     {
-        // mock findOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+        $args = ['entity' => 'ip', 'value' => '1.2.3.4'];
+        $args1 = ['entity' => 'ip', 'value' => '1.2.3.41'];
 
-        $args = [
-            'entity' => 'ip',
-            'value' => '1.2.3.4'
-        ];
-
-        $args1 = [
-            'entity' => 'ip',
-            'value' => '1.2.3.41'
-        ];
-
+        $mock = $this->getMock();
         $mock->expects($this->exactly(2))
             ->method('findOne')
             ->with($this->logicalOr(
@@ -58,16 +49,13 @@ class MongoDBDriverTest extends TestCase
         $mongoDBDriver = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $mongoDBDriver->setCollection($mock);
 
-
         $this->assertTrue($mongoDBDriver->isBlocked('ip', '1.2.3.4'));
         $this->assertFalse($mongoDBDriver->isBlocked('ip', '1.2.3.41'));
     }
 
     public function testAdd()
     {
-        // mock insertOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
-
+        $mock = $this->getMock();
         $mock->expects($this->once())
             ->method('insertOne')
             ->with(self::SAMPLE_DATA[1]['args'])
@@ -91,9 +79,7 @@ class MongoDBDriverTest extends TestCase
 
     public function testAddReturnFalse()
     {
-        // mock insertOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
-
+        $mock = $this->getMock();
         $mock->expects($this->once())
             ->method('insertOne')
             ->with(self::SAMPLE_DATA[1]['args'])
@@ -117,8 +103,7 @@ class MongoDBDriverTest extends TestCase
 
     public function testRemove()
     {
-        // mock deleteOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+        $mock = $this->getMock();
 
         $mock->expects($this->once())
             ->method('deleteOne')
@@ -143,8 +128,7 @@ class MongoDBDriverTest extends TestCase
 
     public function testRemoveReturnFalse()
     {
-        // mock deleteOne function
-        $mock = $this->createMock(self::MONGO_COLLECTION_CLASS);
+        $mock = $this->getMock();
 
         $mock->expects($this->once())
             ->method('deleteOne')
@@ -174,5 +158,10 @@ class MongoDBDriverTest extends TestCase
                 return $data['exists'];
             }
         }
+    }
+
+    private function getMock()
+    {
+        return $this->createMock(self::MONGO_COLLECTION_CLASS);
     }
 }

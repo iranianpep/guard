@@ -11,14 +11,13 @@ class GreetingTest extends TestCase
 {
     public function testPushDriver()
     {
-        $guard = new Guard();
-
         $driver1 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $driver1->test = 1;
 
         $driver2 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $driver2->test = 2;
 
+        $guard = new Guard();
         $guard->pushDriver($driver1)->pushDriver($driver2);
         $drivers = $guard->getDrivers();
 
@@ -29,8 +28,6 @@ class GreetingTest extends TestCase
 
     public function testSetDrivers()
     {
-        $guard = new Guard();
-
         $driver1 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $driver1->test = 1;
 
@@ -38,6 +35,8 @@ class GreetingTest extends TestCase
         $driver2->test = 2;
 
         $drivers = [$driver1, $driver2];
+
+        $guard = new Guard();
         $guard->setDrivers($drivers);
 
         $this->assertEquals($drivers, $guard->getDrivers());
@@ -45,14 +44,11 @@ class GreetingTest extends TestCase
 
     public function testIsBlockedNoDriver()
     {
-        $guard = new Guard();
-        $this->assertFalse($guard->isBlocked('dummy', 'dummy'));
+        $this->assertFalse((new Guard())->isBlocked('dummy', 'dummy'));
     }
 
     public function testBlock()
     {
-        $guard = new Guard();
-
         // mock insertOne function
         $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
         $mock->expects($this->once())
@@ -67,6 +63,8 @@ class GreetingTest extends TestCase
 
         $driver1 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $driver1->setCollection($mock);
+
+        $guard = new Guard();
         $guard->pushDriver($driver1);
 
         $guard->block(
@@ -77,8 +75,6 @@ class GreetingTest extends TestCase
 
     public function testBlockReturnFalse()
     {
-        $guard = new Guard();
-
         // mock insertOne function
         $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
 
@@ -89,6 +85,8 @@ class GreetingTest extends TestCase
 
         $driver1 = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $driver1->setCollection($mock);
+
+        $guard = new Guard();
         $guard->pushDriver($driver1);
 
         $guard->block(
@@ -99,32 +97,19 @@ class GreetingTest extends TestCase
 
     public function testIsBlocked()
     {
-        $guard = new Guard();
-
-        // mock findOne function
         $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
-
-        $args = [
-            'entity' => 'ip',
-            'value' => '1.2.3.4'
-        ];
-
-        $args1 = [
-            'entity' => 'ip',
-            'value' => '1.2.3.41'
-        ];
-
         $mock->expects($this->exactly(2))
             ->method('findOne')
             ->with($this->logicalOr(
-                $this->equalTo($args),
-                $this->equalTo($args1)
+                $this->equalTo(['entity' => 'ip', 'value' => '1.2.3.4']),
+                $this->equalTo(['entity' => 'ip', 'value' => '1.2.3.41'])
             ))
             ->will($this->returnCallback([$this, 'fakeFindOne']));
 
         $mongoDBDriver = new MongoDBDriver(new Client(), 'test_db', 'test_collection');
         $mongoDBDriver->setCollection($mock);
 
+        $guard = new Guard();
         $guard->pushDriver($mongoDBDriver);
 
         try {
@@ -138,24 +123,12 @@ class GreetingTest extends TestCase
 
     public function testUnBlock()
     {
-        // mock findOne function
         $mock = $this->createMock(MongoDBDriverTest::MONGO_COLLECTION_CLASS);
-
-        $args = [
-            'entity' => 'ip',
-            'value' => '1.2.3.4'
-        ];
-
-        $args1 = [
-            'entity' => 'ip',
-            'value' => '1.2.3.41'
-        ];
-
         $mock->expects($this->exactly(2))
             ->method('findOne')
             ->with($this->logicalOr(
-                $this->equalTo($args),
-                $this->equalTo($args1)
+                $this->equalTo(['entity' => 'ip', 'value' => '1.2.3.4']),
+                $this->equalTo(['entity' => 'ip', 'value' => '1.2.3.41'])
             ))
             ->will($this->returnCallback([$this, 'fakeFindOne']));
 
