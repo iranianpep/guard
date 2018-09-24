@@ -5,7 +5,7 @@ namespace Guard\Driver;
 abstract class AbstractDriver implements DriverInterface
 {
     /**
-     * Add an entity with its value
+     * Add an entity with its value.
      *
      * @param $entity
      * @param $value
@@ -15,7 +15,7 @@ abstract class AbstractDriver implements DriverInterface
     abstract protected function add($entity, $value);
 
     /**
-     * Check whether an entity with its value exists
+     * Check whether an entity with its value exists.
      *
      * @param $entity
      * @param $value
@@ -25,7 +25,7 @@ abstract class AbstractDriver implements DriverInterface
     abstract protected function exists($entity, $value): bool;
 
     /**
-     * Remove an entity with its value from the collection
+     * Remove an entity with its value from the collection.
      *
      * @param $entity
      * @param $value
@@ -35,7 +35,7 @@ abstract class AbstractDriver implements DriverInterface
     abstract protected function remove($entity, $value);
 
     /**
-     * Block a value for an entity
+     * Block a value for an entity.
      *
      * @param $entity
      * @param $value
@@ -52,7 +52,7 @@ abstract class AbstractDriver implements DriverInterface
     }
 
     /**
-     * Unblock a blocked value for an entity
+     * Unblock a blocked value for an entity.
      *
      * @param $entity
      * @param $value
@@ -69,7 +69,7 @@ abstract class AbstractDriver implements DriverInterface
     }
 
     /**
-     * Check if a value for an entity is blocked
+     * Check if a value for an entity is blocked.
      *
      * @param $entity
      * @param $value
