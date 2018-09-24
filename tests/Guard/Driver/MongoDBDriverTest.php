@@ -12,24 +12,24 @@ class MongoDBDriverTest extends TestCase
         [
             'args' => [
                 'entity' => 'ip',
-                'value' => '1.2.3.4'
+                'value'  => '1.2.3.4',
             ],
-            'exists' => true
+            'exists' => true,
         ],
         [
             'args' => [
                 'entity' => 'ip',
-                'value' => '1.2.3.41'
+                'value'  => '1.2.3.41',
             ],
-            'exists' => false
+            'exists' => false,
         ],
         [
             'args' => [
                 'entity' => 'ip',
-                'value' => '1.2.3.42'
+                'value'  => '1.2.3.42',
             ],
-            'exists' => false
-        ]
+            'exists' => false,
+        ],
     ];
 
     public function testExists()

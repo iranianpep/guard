@@ -5,7 +5,7 @@ namespace Guard\Driver;
 interface DriverInterface
 {
     /**
-     * Block a value for an entity
+     * Block a value for an entity.
      *
      * @param $entity
      * @param $value
@@ -15,7 +15,7 @@ interface DriverInterface
     public function block($entity, $value) : bool;
 
     /**
-     * Unblock a blocked value for an entity
+     * Unblock a blocked value for an entity.
      *
      * @param $entity
      * @param $value
@@ -25,7 +25,7 @@ interface DriverInterface
     public function unBlock($entity, $value): bool;
 
     /**
-     * Check if a value for an entity is blocked
+     * Check if a value for an entity is blocked.
      *
      * @param $entity
      * @param $value

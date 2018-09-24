@@ -7,7 +7,7 @@ use Guard\Driver\MongoDBDriverTest;
 use MongoDB\Client;
 use PHPUnit\Framework\TestCase;
 
-class GreetingTest extends TestCase
+class GuardTest extends TestCase
 {
     public function testPushDriver()
     {

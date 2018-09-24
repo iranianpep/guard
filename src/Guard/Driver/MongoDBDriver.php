@@ -22,7 +22,7 @@ class MongoDBDriver extends AbstractDriver
     }
 
     /**
-     * Get MongoDB collection
+     * Get MongoDB collection.
      *
      * @return Collection
      */
@@ -32,7 +32,7 @@ class MongoDBDriver extends AbstractDriver
     }
 
     /**
-     * Set MongoDB collection
+     * Set MongoDB collection.
      *
      * @param Collection $collection
      */
@@ -42,7 +42,7 @@ class MongoDBDriver extends AbstractDriver
     }
 
     /**
-     * Add an entity with its value to the collection
+     * Add an entity with its value to the collection.
      *
      * @param $entity
      * @param $value
@@ -54,7 +54,7 @@ class MongoDBDriver extends AbstractDriver
         try {
             $this->getCollection()->insertOne([
                 'entity' => $entity,
-                'value' => $value
+                'value'  => $value,
             ]);
 
             return true;
@@ -64,7 +64,7 @@ class MongoDBDriver extends AbstractDriver
     }
 
     /**
-     * Check whether an entity with its value exists in the collection
+     * Check whether an entity with its value exists in the collection.
      *
      * @param $entity
      * @param $value
@@ -75,7 +75,7 @@ class MongoDBDriver extends AbstractDriver
     {
         $result = $this->getCollection()->findOne([
             'entity' => $entity,
-            'value' => $value
+            'value'  => $value,
         ]);
 
         if (!empty($result)) {
@@ -86,7 +86,7 @@ class MongoDBDriver extends AbstractDriver
     }
 
     /**
-     * Remove an entity with its value from the collection
+     * Remove an entity with its value from the collection.
      *
      * @param $entity
      * @param $value
@@ -98,7 +98,7 @@ class MongoDBDriver extends AbstractDriver
         try {
             $this->getCollection()->deleteOne([
                 'entity' => $entity,
-                'value' => $value
+                'value'  => $value,
             ]);
 
             return true;
