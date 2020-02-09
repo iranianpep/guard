@@ -11,14 +11,16 @@
     "mongodb/mongodb": "^1.4"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6"
+    "phpunit/phpunit": "^6 || ^7 || ^8 || ^9"
   },
   "autoload": {
     "psr-4": {
-      "Guard\\": ["src/Guard"]
+      "Guard\\": "src/Guard"
     }
   },
   "autoload-dev": {
-    "psr-4": {"Guard\\": "tests/Guard"}
+    "psr-4": {
+      "Guard\\": "tests/Guard"
+    }
   }
 }
